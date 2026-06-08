@@ -7,7 +7,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-            <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div class="bg-gray-200 border border-gray-200 rounded-xl p-4 shadow-sm">
                 <h2 class="text-sm font-semibold text-gray-500 mb-4 uppercase tracking-wide">
                     Pending
                 </h2>
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div class="bg-yellow-200 border border-gray-200 rounded-xl p-4 shadow-sm">
                 <h2 class="text-sm font-semibold text-gray-500 mb-4 uppercase tracking-wide">
                     In Progress
                 </h2>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div class="bg-green-300 border border-gray-200 rounded-xl p-4 shadow-sm">
                 <h2 class="text-sm font-semibold text-gray-500 mb-4 uppercase tracking-wide">
                     Done
                 </h2>
