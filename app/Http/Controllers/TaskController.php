@@ -49,7 +49,8 @@ class TaskController extends Controller
         Task::create([
             'title' => $request->title,
             'description' => $request->description,
-            'status' => $request->status
+            'status' => $request->status,
+            'user_id' => auth()->id(),
         ]);
         return redirect('/tasks');
     }
@@ -67,6 +68,8 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+        if($task->user_id !== auth()->id())
+            abort(403);
         return view('tasks.edit', compact('task'));
     }
 
@@ -75,6 +78,8 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        if($task->user_id !== auth()->id())
+            abort(403);
         $validated = $request->validate([
             'title' => 'required',
             'description' => 'nullable',
@@ -94,6 +99,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        if($task->user_id !== auth()->id())
+            abort(403);
         $task->delete();
 
         return redirect('/tasks');
