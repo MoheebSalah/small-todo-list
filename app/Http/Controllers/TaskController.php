@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\rc;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -34,32 +36,21 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'nullable',
-            'status' => 'required',
-        ], [
-            'title.required' => 'Please give this task a title',
-            'status.required' => 'Task must have a status',
 
-        ]);
-
-        Task::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'status' => $request->status
-        ]);
+        auth()->user()->tasks()->create(
+            $request->validated()
+        );
         return redirect('/tasks');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(rc $rc)
+    public function show(Task $task)
     {
-        //
+        return view('tasks.taskPage', compact('task'));
     }
 
     /**
@@ -67,26 +58,21 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+        if($task->user_id !== auth()->id())
+            abort(403);
         return view('tasks.edit', compact('task'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        $validated = $request->validate([
-            'title' => 'required',
-            'description' => 'nullable',
-            'status' => 'required',
-        ], [
-            'title.required' => 'Please give this task a title',
-            'status.required' => 'Task must have a status',
+        if($task->user_id !== auth()->id())
+            abort(403);
 
-        ]);
-
-        $task->update($validated);
-        return redirect('/tasks');
+       $task->update($request->validated());
+       return redirect('/tasks');
     }
 
     /**
@@ -94,6 +80,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        if($task->user_id !== auth()->id())
+            abort(403);
         $task->delete();
 
         return redirect('/tasks');

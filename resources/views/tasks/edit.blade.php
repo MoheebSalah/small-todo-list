@@ -60,7 +60,7 @@
                 Save Changes
             </button>
 
-            <a href="/tasks"
+            <a href="{{url()->previous()}}"
                class="block text-center w-full py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
                 Cancel
             </a>
