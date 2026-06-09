@@ -2,9 +2,9 @@
 
 <div class="group bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition space-y-3">
 
-    <h1 class="text-gray-800 font-semibold text-xl group-hover:text-indigo-600 transition">
+    <a href="/tasks/{{$task->id}}" class="text-gray-800 font-semibold text-xl group-hover:text-indigo-600 transition">
         {{ $task->title }}
-    </h1>
+    </a>
 
     <p class="text-gray-600 text-sm font-semibold leading-relaxed">
         {{ $task->description }}
