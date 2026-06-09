@@ -6,10 +6,12 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\rc;
 use App\Models\Task;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -58,7 +60,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        if($task->user_id !== auth()->id())
+        if ($task->user_id !== auth()->id())
             abort(403);
         return view('tasks.edit', compact('task'));
     }
@@ -68,11 +70,9 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        if($task->user_id !== auth()->id())
-            abort(403);
-
-       $task->update($request->validated());
-       return redirect('/tasks');
+        $this->authorize('update', $task);
+        $task->update($request->validated());
+        return redirect('/tasks');
     }
 
     /**
@@ -80,8 +80,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if($task->user_id !== auth()->id())
-            abort(403);
+        $this->authorize('delete', $task);
         $task->delete();
 
         return redirect('/tasks');
